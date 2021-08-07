@@ -98,9 +98,7 @@ You can find the inputs to the particle filter in the `data` directory.
 
 ## Results
 
-![Success](images/success.JPG)
+![Success](images/Peek_2021-08-07_10-19.gif)
 
 
-
-https://user-images.githubusercontent.com/17582812/128587531-bde6b1d6-8e6b-41e5-8c3d-a8a2b89510bb.mp4
 
