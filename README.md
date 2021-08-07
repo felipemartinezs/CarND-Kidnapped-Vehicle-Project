@@ -1,92 +1,63 @@
-# Overview
-This repository contains all the code needed to complete the final project for the Localization course in Udacity's Self-Driving Car Nanodegree.
+# CarND-Kidnapped-Vehicle-Project
 
-#### Submission
-All you will need to submit is your `src` directory. You should probably do a `git pull` before submitting to verify that your project passes the most up-to-date version of the grading code (there are some parameters in `src/main.cpp` which govern the requirements on accuracy and run time).
+
+![Localization](images/localization.JPG)
+
 
 ## Project Introduction
-Your robot has been kidnapped and transported to a new location! Luckily it has a map of this location, a (noisy) GPS estimate of its initial location, and lots of (noisy) sensor and control data.
 
-In this project you will implement a 2 dimensional particle filter in C++. Your particle filter will be given a map and some initial localization information (analogous to what a GPS would provide). At each time step your filter will also get observation and control data.
+Suppose a vehicle has been kidnapped and transported to a new location! Fortunately, you have a map of this location, a GPS (noisy) estimate of your starting location, and lots of (noisy) sensor and control data.
 
-## Running the Code
-This project involves the Term 2 Simulator which can be downloaded [here](https://github.com/udacity/self-driving-car-sim/releases)
+In that project our vehicle has been kidnapped and placed in an unknown location. We must leverage our knowledge of localization to determine where our vehicle is. The Kidnapped Vehicle Project relies heavily on the particle filter approach to localization, particularly implementation. It will be developed using C ++ in a two-dimensional implementation. The particle filter has a map and some initial location information (analogous to GPS). At each time step, the filter also reports observation and control data.
 
-This repository includes two files that can be used to set up and install uWebSocketIO for either Linux or Mac systems. For windows you can use either Docker, VMware, or even Windows 10 Bash on Ubuntu to install uWebSocketIO.
+## Localization
 
-Once the install for uWebSocketIO is complete, the main program can be built and ran by doing the following from the project top directory.
+In a self-Driving Car One of the problems that we are trying to solve is the location.
+Let's think for a moment that there could be a car or a mobile robot in an environment, the vehicle or the robot does not know where it is, similarly there could be a vehicle moving on a road, and we would like to know where it is if it is within the tracks or on the guidelines of the same.
+The traditional way to solve this problem is by using satellites.
+These emit signals that the car can persist. It is known as GPS (Global Positioning System) in the map template, and you can see where you are.
+Unfortunately, the problem with GPS is that it is not very accurate.
+It is common for a driver to believe in the position indicated by the GPS but has a 2 m to 10 m error in the location.
+In such a way that if you try to stay on the road with 10 meters of error, it would be quite far, and if you drive based on that location, you will surely have problems.
+For our self-directed vehicle to stay on the road using localization, we will need something like 2 to 10 centimeters of error.
 
-1. mkdir build
+
+
+## Files
+
+The following files are part of this project: 
+* particle_filter.cpp:   Particle Filter class definition;
+* map.cpp: Map class definition;
+* main.cpp: Main file; 
+* images: 
+** success.png:  Location Estimation using the Udacity Simulator; 
+
+### Dependency
+
+This project requires the following packages to work:
+* Udacity Simulator [https://github.com/udacity/self-driving-car-sim/releases/](https://github.com/udacity/self-driving-car-sim/releases/);
+* cmake 3.5 or above;
+* make 4.1 or above;
+* gcc/g++: 5.4 or above;
+* uWebSocketIO;
+
+### WebSocketIO
+
+This project uses the open source package called WebScokectIO to facilitate the communication between the 
+Particle Filter and the Udacity Simulator. To install all the websocketio libs, execute the script ``install-ubuntu.sh`` from the project repository directory.
+
+## How to use this project
+
+To run this project, you first need to compile the code. After the code is compiled, please, run the Udacity simulator and the ``particle_filter`` binary created at the build folder.
+
+### Compiling and Running
+
+The main program can be built and run by doing the following from the project top directory.
+
+1. ./build.sh
 2. cd build
-3. cmake ..
-4. make
-5. ./particle_filter
-
-Alternatively some scripts have been included to streamline this process, these can be leveraged by executing the following in the top directory of the project:
-
-1. ./clean.sh
-2. ./build.sh
-3. ./run.sh
-
-Tips for setting up your environment can be found [here](https://classroom.udacity.com/nanodegrees/nd013/parts/40f38239-66b6-46ec-ae68-03afd8a601c8/modules/0949fca6-b379-42af-a919-ee50aa304e6a/lessons/f758c44c-5e40-4e01-93b5-1a82aa4e044f/concepts/23d376c7-0195-4276-bdf0-e02f1f3c665d)
-
-Note that the programs that need to be written to accomplish the project are src/particle_filter.cpp, and particle_filter.h
-
-The program main.cpp has already been filled out, but feel free to modify it.
-
-Here is the main protocol that main.cpp uses for uWebSocketIO in communicating with the simulator.
-
-INPUT: values provided by the simulator to the c++ program
-
-// sense noisy position data from the simulator
-
-["sense_x"]
-
-["sense_y"]
-
-["sense_theta"]
-
-// get the previous velocity and yaw rate to predict the particle's transitioned state
-
-["previous_velocity"]
-
-["previous_yawrate"]
-
-// receive noisy observation data from the simulator, in a respective list of x/y values
-
-["sense_observations_x"]
-
-["sense_observations_y"]
-
-
-OUTPUT: values provided by the c++ program to the simulator
-
-// best particle values used for calculating the error evaluation
-
-["best_particle_x"]
-
-["best_particle_y"]
-
-["best_particle_theta"]
-
-//Optional message data used for debugging particle's sensing and associations
-
-// for respective (x,y) sensed positions ID label
-
-["best_particle_associations"]
-
-// for respective (x,y) sensed positions
-
-["best_particle_sense_x"] <= list of sensed x positions
-
-["best_particle_sense_y"] <= list of sensed y positions
-
-
-Your job is to build out the methods in `particle_filter.cpp` until the simulator output says:
-
-```
-Success! Your particle filter passed!
-```
+3. ./particle_filter
+4. Run the Udacity Simulator
 
 # Implementing the Particle Filter
 The directory structure of this repository is as follows:
@@ -125,19 +96,113 @@ You can find the inputs to the particle filter in the `data` directory.
 2. y position
 3. landmark id
 
-### All other data the simulator provides, such as observations and controls.
-
-> * Map data provided by 3D Mapping Solutions GmbH.
-
-## Success Criteria
-If your particle filter passes the current grading code in the simulator (you can make sure you have the current version at any time by doing a `git pull`), then you should pass!
-
-The things the grading code is looking for are:
+## Results
 
 
-1. **Accuracy**: your particle filter should localize vehicle position and yaw to within the values specified in the parameters `max_translation_error` and `max_yaw_error` in `src/main.cpp`.
 
-2. **Performance**: your particle filter should complete execution within the time of 100 seconds.
+# CarND-Kidnapped-Vehicle-Project
 
-## How to write a README
-A well written README file can enhance your project and portfolio.  Develop your abilities to create professional README files by completing [this free course](https://www.udacity.com/course/writing-readmes--ud777).
+
+![Localization](images/localization.JPG)
+
+
+## Project Introduction
+
+Suppose a vehicle has been kidnapped and transported to a new location! Fortunately, you have a map of this location, a GPS (noisy) estimate of your starting location, and lots of (noisy) sensor and control data.
+
+In that project our vehicle has been kidnapped and placed in an unknown location. We must leverage our knowledge of localization to determine where our vehicle is. The Kidnapped Vehicle Project relies heavily on the particle filter approach to localization, particularly implementation. It will be developed using C ++ in a two-dimensional implementation. The particle filter has a map and some initial location information (analogous to GPS). At each time step, the filter also reports observation and control data.
+
+## Localization
+
+In a self-Driving Car One of the problems that we are trying to solve is the location.
+Let's think for a moment that there could be a car or a mobile robot in an environment, the vehicle or the robot does not know where it is, similarly there could be a vehicle moving on a road, and we would like to know where it is if it is within the tracks or on the guidelines of the same.
+The traditional way to solve this problem is by using satellites.
+These emit signals that the car can persist. It is known as GPS (Global Positioning System) in the map template, and you can see where you are.
+Unfortunately, the problem with GPS is that it is not very accurate.
+It is common for a driver to believe in the position indicated by the GPS but has a 2 m to 10 m error in the location.
+In such a way that if you try to stay on the road with 10 meters of error, it would be quite far, and if you drive based on that location, you will surely have problems.
+For our self-directed vehicle to stay on the road using localization, we will need something like 2 to 10 centimeters of error.
+
+
+
+## Files
+
+The following files are part of this project: 
+* particle_filter.cpp:   Particle Filter class definition;
+* map.cpp: Map class definition;
+* main.cpp: Main file; 
+* images: 
+** success.png:  Location Estimation using the Udacity Simulator; 
+
+### Dependency
+
+This project requires the following packages to work:
+* Udacity Simulator [https://github.com/udacity/self-driving-car-sim/releases/](https://github.com/udacity/self-driving-car-sim/releases/);
+* cmake 3.5 or above;
+* make 4.1 or above;
+* gcc/g++: 5.4 or above;
+* uWebSocketIO;
+
+### WebSocketIO
+
+This project uses the open source package called WebScokectIO to facilitate the communication between the 
+Particle Filter and the Udacity Simulator. To install all the websocketio libs, execute the script ``install-ubuntu.sh`` from the project repository directory.
+
+## How to use this project
+
+To run this project, you first need to compile the code. After the code is compiled, please, run the Udacity simulator and the ``particle_filter`` binary created at the build folder.
+
+### Compiling and Running
+
+The main program can be built and run by doing the following from the project top directory.
+
+1. ./build.sh
+2. cd build
+3. ./particle_filter
+4. Run the Udacity Simulator
+
+# Implementing the Particle Filter
+The directory structure of this repository is as follows:
+
+```
+root
+|   build.sh
+|   clean.sh
+|   CMakeLists.txt
+|   README.md
+|   run.sh
+|
+|___data
+|   |   
+|   |   map_data.txt
+|   
+|   
+|___src
+    |   helper_functions.h
+    |   main.cpp
+    |   map.h
+    |   particle_filter.cpp
+    |   particle_filter.h
+```
+
+The only file you should modify is `particle_filter.cpp` in the `src` directory. The file contains the scaffolding of a `ParticleFilter` class and some associated methods. Read through the code, the comments, and the header file `particle_filter.h` to get a sense for what this code is expected to do.
+
+If you are interested, take a look at `src/main.cpp` as well. This file contains the code that will actually be running your particle filter and calling the associated methods.
+
+## Inputs to the Particle Filter
+You can find the inputs to the particle filter in the `data` directory.
+
+#### The Map*
+`map_data.txt` includes the position of landmarks (in meters) on an arbitrary Cartesian coordinate system. Each row has three columns
+1. x position
+2. y position
+3. landmark id
+
+## Results
+
+![Success](images/success.JPG)
+
+
+
+https://user-images.githubusercontent.com/17582812/128587531-bde6b1d6-8e6b-41e5-8c3d-a8a2b89510bb.mp4
+
